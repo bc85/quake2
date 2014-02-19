@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game.vcxproj", "{6E88440C-52C4-4E0C-B9B2-880C412A20EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Alpha|Win32 = Debug Alpha|Win32
+		Debug|Win32 = Debug|Win32
+		Release Alpha|Win32 = Release Alpha|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Debug Alpha|Win32.ActiveCfg = Debug Alpha|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Debug Alpha|Win32.Build.0 = Debug Alpha|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Debug|Win32.Build.0 = Debug|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Release Alpha|Win32.ActiveCfg = Release Alpha|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Release Alpha|Win32.Build.0 = Release Alpha|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Release|Win32.ActiveCfg = Release|Win32
+		{6E88440C-52C4-4E0C-B9B2-880C412A20EA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
