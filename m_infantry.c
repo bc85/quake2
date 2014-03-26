@@ -363,6 +363,14 @@ mframe_t infantry_frames_death3 [] =
 };
 mmove_t infantry_move_death3 = {FRAME_death301, FRAME_death309, infantry_frames_death3, infantry_dead};
 
+void infantry_respawn(edict_t *self)
+{
+	self->health = 100;
+	self->deadflag = DEAD_NO;
+	VectorCopy(self->spawn_origin, self->s.origin);
+	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
+	self->monsterinfo.currentmove = &infantry_move_stand;
+}
 
 void infantry_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
@@ -378,6 +386,12 @@ void infantry_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dam
 			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
+		infantry_respawn(self);
+		if (attacker != NULL)
+		{
+			attacker->client->pers.money += 50;
+			gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+		}
 		return;
 	}
 
@@ -404,6 +418,15 @@ void infantry_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dam
 		self->monsterinfo.currentmove = &infantry_move_death3;
 		gi.sound (self, CHAN_VOICE, sound_die2, 1, ATTN_NORM, 0);
 	}
+	infantry_respawn(self);
+	if (attacker != NULL)
+	{
+		attacker->client->pers.money += 50;
+		gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	}
+	//walkmonster_start(self);
+	//SP_monster_infantry();
+	//respawn(self);
 }
 
 
@@ -536,11 +559,11 @@ void infantry_attack(edict_t *self)
 */
 void SP_monster_infantry (edict_t *self)
 {
-	if (deathmatch->value)
+	/*if (deathmatch->value)
 	{
 		G_FreeEdict (self);
 		return;
-	}
+	}*/
 
 	sound_pain1 = gi.soundindex ("infantry/infpain1.wav");
 	sound_pain2 = gi.soundindex ("infantry/infpain2.wav");
@@ -562,6 +585,9 @@ void SP_monster_infantry (edict_t *self)
 	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
 	VectorSet (self->mins, -16, -16, -24);
 	VectorSet (self->maxs, 16, 16, 32);
+
+	self->s.origin[2] += 40;
+	VectorCopy(self->s.origin, self->spawn_origin);
 
 	self->health = 100;
 	self->gib_health = -40;

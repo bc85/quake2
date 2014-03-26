@@ -313,9 +313,23 @@ mframe_t gunner_frames_death [] =
 };
 mmove_t gunner_move_death = {FRAME_death01, FRAME_death11, gunner_frames_death, gunner_dead};
 
+void gunner_respawn(edict_t *self)
+{
+	self->health = 100;
+	self->deadflag = DEAD_NO;
+	VectorCopy(self->spawn_origin, self->s.origin);
+	self->s.modelindex = gi.modelindex("models/monsters/gunner/tris.md2");
+	self->monsterinfo.currentmove = &gunner_move_stand;
+}
+
+
 void gunner_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	int		n;
+	//gitem_t		*it;
+
+	//ValidateSelectedItem(self);
+	//it = &itemlist[self->client->pers.selected_item];
 
 // check for gib
 	if (self->health <= self->gib_health)
@@ -326,7 +340,23 @@ void gunner_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 		for (n= 0; n < 4; n++)
 			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
+		//it->drop(self, it);
 		self->deadflag = DEAD_DEAD;
+		//it->drop(self, it);
+		//Drop_Item(self, it);
+		//Drop_Item(self, self->client->pers.weapon);
+		//TossClientWeapon(self);
+		
+		//attacker->client->pers.money += 50;
+		//gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+		gunner_respawn(self);
+		if (attacker != NULL)
+		{
+			attacker->client->pers.money += 50;
+			gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+		}
+		//ent->client->pers.superShotgunUpgraded = true;
+		//gi.cprintf(attacker, PRINT_HIGH, "Super shotgun upgraded\n");
 		return;
 	}
 
@@ -335,9 +365,21 @@ void gunner_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 
 // regular death
 	gi.sound (self, CHAN_VOICE, sound_death, 1, ATTN_NORM, 0);
+	//it->drop(self, it);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
 	self->monsterinfo.currentmove = &gunner_move_death;
+	//attacker->client->pers.money += 50;
+	//gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	gunner_respawn(self);
+	if (attacker != NULL)
+	{
+		attacker->client->pers.money += 50;
+		gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	}
+	//it->drop(self, it);
+	//Drop_Item(self, it);
+	//Drop_Item(self, self->client->pers.weapon);
 }
 
 
@@ -561,11 +603,11 @@ void gunner_refire_chain(edict_t *self)
 */
 void SP_monster_gunner (edict_t *self)
 {
-	if (deathmatch->value)
+	/*if (deathmatch->value)
 	{
 		G_FreeEdict (self);
 		return;
-	}
+	}*/
 
 	sound_death = gi.soundindex ("gunner/death1.wav");	
 	sound_pain = gi.soundindex ("gunner/gunpain2.wav");	
@@ -583,6 +625,7 @@ void SP_monster_gunner (edict_t *self)
 	self->s.modelindex = gi.modelindex ("models/monsters/gunner/tris.md2");
 	VectorSet (self->mins, -16, -16, -24);
 	VectorSet (self->maxs, 16, 16, 32);
+	self->s.origin[2] += 40;
 
 	self->health = 175;
 	self->gib_health = -70;

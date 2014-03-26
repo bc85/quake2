@@ -595,6 +595,208 @@ void Cmd_WeapLast_f (edict_t *ent)
 	it->use (ent, it);
 }
 
+void Cmd_UpgradeWeapon_f(edict_t *ent)
+{
+	/*if (ent->client->pers.weapon->weapmodel == WEAP_BLASTER && ent->client->pers.money >=50)
+	{
+		// Set the blaster upgrade var to true
+		// Deduct cost from player's money
+		ent->client->pers.money -= 50;
+		gi.cprintf(ent, PRINT_HIGH, "Weapon upgraded\n");
+	}
+	else
+	{
+		//gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: %5.2f\n", ent->client->pers.money);
+		gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: %i\n", ent->client->pers.money);
+	}*/
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_BLASTER)
+	{
+		if (ent->client->pers.blasterUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Blaster already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 50)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.blasterUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Blaster upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $50\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_MACHINEGUN)
+	{
+		if (ent->client->pers.machineGunUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Machine gun already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 115)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.machineGunUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Machine gun upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $115\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_ROCKETLAUNCHER)
+	{
+		if (ent->client->pers.rocketLauncherUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Rocket launcher already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 134)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.rocketLauncherUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Rocket launcher upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $134\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_CHAINGUN)
+	{
+		if (ent->client->pers.chainGunUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Chain gun already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 100)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.chainGunUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Chain gun upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $100\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_SHOTGUN)
+	{
+		if (ent->client->pers.shotgunUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Shotgun already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 100)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.shotgunUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Shotgun upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $100\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_RAILGUN)
+	{
+		if (ent->client->pers.railgunUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Railgun already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 100)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.railgunUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Railgun upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $100\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_GRENADELAUNCHER)
+	{
+		if (ent->client->pers.grenadeLauncherUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Grenade launcher already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 100)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.grenadeLauncherUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Grenade launcher upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $100\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_BFG)
+	{
+		if (ent->client->pers.bfgUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "BFG already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 100)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.bfgUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "BFG upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $100\n", ent->client->pers.money);
+		}
+	}
+
+	if (ent->client->pers.weapon->weapmodel == WEAP_SUPERSHOTGUN)
+	{
+		if (ent->client->pers.superShotgunUpgraded)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Super shotgun already upgraded\n");
+		}
+		else if (ent->client->pers.money >= 150)
+		{
+			// Set the blaster upgrade var to true
+			// Deduct cost from player's money
+			ent->client->pers.money -= 50;
+			ent->client->pers.superShotgunUpgraded = true;
+			gi.cprintf(ent, PRINT_HIGH, "Super shotgun upgraded\n");
+		}
+		else
+		{
+			gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: $%i | Upgrade cost: $150\n", ent->client->pers.money);
+		}
+	}
+	/*else
+	{
+		//gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: %5.2f\n", ent->client->pers.money);
+		gi.cprintf(ent, PRINT_HIGH, "Not enough funds. | Current Balance: %i\n", ent->client->pers.money);
+	}*/
+}
+
+
 /*
 =================
 Cmd_InvDrop_f
@@ -967,7 +1169,9 @@ void ClientCommand (edict_t *ent)
 	else if (Q_stricmp (cmd, "wave") == 0)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
-		Cmd_PlayerList_f(ent);
+		Cmd_PlayerList_f (ent);
+	else if (Q_stricmp(cmd, "upgrade") == 0)
+		Cmd_UpgradeWeapon_f (ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

@@ -286,6 +286,15 @@ mframe_t gladiator_frames_death [] =
 };
 mmove_t gladiator_move_death = {FRAME_death1, FRAME_death22, gladiator_frames_death, gladiator_dead};
 
+void gladiator_respawn(edict_t *self)
+{
+	self->health = 100;
+	self->deadflag = DEAD_NO;
+	VectorCopy(self->spawn_origin, self->s.origin);
+	self->s.modelindex = gi.modelindex("models/monsters/gladiatr/tris.md2");
+	self->monsterinfo.currentmove = &gladiator_move_stand;
+}
+
 void gladiator_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	int		n;
@@ -300,6 +309,12 @@ void gladiator_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int da
 			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
+		gladiator_respawn(self);
+		if (attacker != NULL)
+		{
+			attacker->client->pers.money += 50;
+			gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+		}
 		return;
 	}
 
@@ -312,6 +327,13 @@ void gladiator_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int da
 	self->takedamage = DAMAGE_YES;
 
 	self->monsterinfo.currentmove = &gladiator_move_death;
+
+	gladiator_respawn(self);
+	if (attacker != NULL)
+	{
+		attacker->client->pers.money += 50;
+		gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	}
 }
 
 
@@ -319,11 +341,11 @@ void gladiator_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int da
 */
 void SP_monster_gladiator (edict_t *self)
 {
-	if (deathmatch->value)
+	/*if (deathmatch->value)
 	{
 		G_FreeEdict (self);
 		return;
-	}
+	}*/
 
 
 	sound_pain1 = gi.soundindex ("gladiator/pain.wav");	
@@ -342,6 +364,8 @@ void SP_monster_gladiator (edict_t *self)
 	self->s.modelindex = gi.modelindex ("models/monsters/gladiatr/tris.md2");
 	VectorSet (self->mins, -32, -32, -24);
 	VectorSet (self->maxs, 32, 32, 64);
+
+	self->s.origin[2] += 40;
 
 	self->health = 400;
 	self->gib_health = -175;

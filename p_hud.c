@@ -368,6 +368,11 @@ void G_SetStats (edict_t *ent)
 	ent->client->ps.stats[STAT_HEALTH] = ent->health;
 
 	//
+	// money
+	//
+	ent->client->ps.stats[STAT_MONEY] = ent->client->pers.money;
+
+	//
 	// ammo
 	//
 	if (!ent->client->ammo_index /* || !ent->client->pers.inventory[ent->client->ammo_index] */)

@@ -989,6 +989,7 @@ typedef enum
 #define	STAT_FLASHES			15		// cleared each frame, 1 = health, 2 = armor
 #define STAT_CHASE				16
 #define STAT_SPECTATOR			17
+#define STAT_MONEY				18
 
 #define	MAX_STATS				32
 
@@ -1135,6 +1136,7 @@ typedef struct entity_state_s
 	int		event;			// impulse events -- muzzle flashes, footsteps, etc
 							// events only go out for a single frame, they
 							// are automatically cleared each frame
+	//vec3_t	spawn_origin;
 } entity_state_t;
 
 //==============================================

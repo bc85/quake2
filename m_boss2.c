@@ -485,6 +485,15 @@ void boss2_dead (edict_t *self)
 	gi.linkentity (self);
 }
 
+void boss2_respawn(edict_t *self)
+{
+	self->health = 100;
+	self->deadflag = DEAD_NO;
+	VectorCopy(self->spawn_origin, self->s.origin);
+	self->s.modelindex = gi.modelindex("models/monsters/boss2/tris.md2");
+	self->monsterinfo.currentmove = &boss2_move_stand;
+}
+
 void boss2_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	gi.sound (self, CHAN_VOICE, sound_death, 1, ATTN_NONE, 0);
@@ -516,6 +525,12 @@ void boss2_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	self->takedamage = DAMAGE_YES;
 	self->monsterinfo.currentmove = &boss2_move_death;
 #endif
+	boss2_respawn(self);
+	if (attacker != NULL)
+	{
+		attacker->client->pers.money += 200;
+		gi.cprintf(attacker, PRINT_HIGH, "$200 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	}
 }
 
 qboolean Boss2_CheckAttack (edict_t *self)
@@ -616,11 +631,11 @@ qboolean Boss2_CheckAttack (edict_t *self)
 */
 void SP_monster_boss2 (edict_t *self)
 {
-	if (deathmatch->value)
+	/*if (deathmatch->value)
 	{
 		G_FreeEdict (self);
 		return;
-	}
+	}*/
 
 	sound_pain1 = gi.soundindex ("bosshovr/bhvpain1.wav");
 	sound_pain2 = gi.soundindex ("bosshovr/bhvpain2.wav");

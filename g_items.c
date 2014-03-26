@@ -2163,6 +2163,10 @@ void SP_item_health_mega (edict_t *self)
 	self->style = HEALTH_IGNORE_MAX|HEALTH_TIMED;
 }
 
+void SP_item_shotgun(edict_t *self)
+{
+	// placeholder
+}
 
 void InitItems (void)
 {

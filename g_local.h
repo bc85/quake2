@@ -844,6 +844,17 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	int money;
+	qboolean blasterUpgraded;
+	qboolean machineGunUpgraded;
+	qboolean rocketLauncherUpgraded;
+	qboolean chainGunUpgraded;
+	qboolean shotgunUpgraded;
+	qboolean railgunUpgraded;
+	qboolean grenadeLauncherUpgraded;
+	qboolean bfgUpgraded;
+	qboolean superShotgunUpgraded;
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -1091,5 +1102,7 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	vec3_t		spawn_origin;
 };
 

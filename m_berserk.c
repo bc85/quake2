@@ -372,6 +372,11 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 			ThrowGib (self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		ThrowHead (self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
 		self->deadflag = DEAD_DEAD;
+		if (attacker != NULL)
+		{
+			attacker->client->pers.money += 50;
+			gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+		}
 		return;
 	}
 
@@ -386,6 +391,12 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 		self->monsterinfo.currentmove = &berserk_move_death1;
 	else
 		self->monsterinfo.currentmove = &berserk_move_death2;
+
+	if (attacker != NULL)
+	{
+		attacker->client->pers.money += 50;
+		gi.cprintf(attacker, PRINT_HIGH, "$50 received for the kill | Current Balance: $%i\n", attacker->client->pers.money);
+	}
 }
 
 
@@ -393,11 +404,11 @@ void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 */
 void SP_monster_berserk (edict_t *self)
 {
-	if (deathmatch->value)
-	{
-		G_FreeEdict (self);
-		return;
-	}
+	//if (deathmatch->value)
+	//{
+		//G_FreeEdict (self);
+		//return;
+	//}
 
 	// pre-caches
 	sound_pain  = gi.soundindex ("berserk/berpain2.wav");
@@ -410,6 +421,12 @@ void SP_monster_berserk (edict_t *self)
 	self->s.modelindex = gi.modelindex("models/monsters/berserk/tris.md2");
 	VectorSet (self->mins, -16, -16, -24);
 	VectorSet (self->maxs, 16, 16, 32);
+	//self->pos1[2] += 1000;
+	//self->pos1[1] += 1000;
+	self->s.origin[2] += 40;
+
+	//self->client->pers.weapon->weapmodel = WEAP_BFG;
+
 	self->movetype = MOVETYPE_STEP;
 	self->solid = SOLID_BBOX;
 
@@ -426,6 +443,7 @@ void SP_monster_berserk (edict_t *self)
 	self->monsterinfo.dodge = NULL;
 	self->monsterinfo.attack = NULL;
 	self->monsterinfo.melee = berserk_melee;
+	//self->monsterinfo.melee
 	self->monsterinfo.sight = berserk_sight;
 	self->monsterinfo.search = berserk_search;
 
